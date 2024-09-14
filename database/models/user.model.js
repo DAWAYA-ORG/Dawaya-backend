@@ -2,13 +2,7 @@ import { model, Schema, Types } from "mongoose";
 
 const schema = new Schema(
   {
-    //FIXME: mongo already provide a `_id` automatically, it doesn't make sense to have another id field
-    //you can use _id: false
-    user_id: {
-      type: Types.ObjectId,
-      unique: true,
-      required: [true, "user_id is required"],
-    },
+
     name: {
       type: String,
       maxLength: [100, "name can't be more than 100 characters"],
@@ -29,19 +23,11 @@ const schema = new Schema(
       minLength: [8, "password can't be less than 8 characters"],
       required: [true, "password is required"],
     },
-    contact_number: {
+    contactNumber: {
       type: Number,
-      minLength: 11,
-      maxLength: 11,
-      validate: {
-        validator: (number) => {
-          return isValidEgyptianNumber(number);
-        },
-        message: "please enter a valid number",
-      },
       required: [true, "phone number is required"],
     },
-    lang_location: {
+    langLocation: {
       type: Number,
       min: -180,
       max: 180,
@@ -52,18 +38,18 @@ const schema = new Schema(
       //   },
       // },
     },
-    latitude_location: {
+    latitudeLocation: {
       type: Number,
       min: -90,
       max: 90,
     },
-    user_reviews: [
+    userReviews: [
       {
         type: Types.ObjectId,
         ref: "Review",
       },
     ],
-    user_pharmacies: [
+    userPharmacies: [
       {
         type: Types.ObjectId,
         ref: "Pharmacy",
