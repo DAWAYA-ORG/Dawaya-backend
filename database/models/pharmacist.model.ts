@@ -1,5 +1,6 @@
 import mongoose, { Types } from "mongoose";
 
+
 const pharmacistSchema = new mongoose.Schema({
     licence_number: {
         type: String,
@@ -26,10 +27,15 @@ const pharmacistSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
         minLength: [6, 'Password must be at least 6 characters long']
     },
-    PK_pharmacy_id: {
+    pharmacy: {
         type: Types.ObjectId,
         ref: "Pharmacy",
         required: true
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'admin'
     },
     createdBy: {
         type: Types.ObjectId,
@@ -49,7 +55,8 @@ pharmacistSchema.index({ licence_number: 1, email: 1 });
 // Pre-save hook for password hashing
 pharmacistSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
-        // Hash password logic here
+        // Hash password logic here.....
+
     }
     next();
 });
@@ -61,4 +68,3 @@ pharmacistSchema.methods.comparePassword = async function (candidatePassword: st
 };
 
 export const Pharmacist = mongoose.model('Pharmacist', pharmacistSchema);
-
