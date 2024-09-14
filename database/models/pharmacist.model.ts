@@ -1,10 +1,9 @@
 import mongoose, { Types } from "mongoose";
 
-
 const pharmacistSchema = new mongoose.Schema({
-    licence_number: {
+    licenseNumber: {
         type: String,
-        required: [true, 'Licence number is required'],
+        required: [true, 'license number is required'],
         unique: true,
         maxLength: 50
     },
@@ -32,6 +31,11 @@ const pharmacistSchema = new mongoose.Schema({
         ref: "Pharmacy",
         required: true
     },
+    inventory: {
+        type: Types.ObjectId,
+        ref: "inventory",
+        required: true
+    },
     role: {
         type: String,
         enum: ['admin', 'user'],
@@ -44,12 +48,12 @@ const pharmacistSchema = new mongoose.Schema({
     }
 }, { timestamps: true, versionKey: false });
 
-/* Create an index for the `licence_number` and `email` fields to improve query performance.
- The index ensures that when queries involve searching for a pharmacist by `licence_number` or `email`,
+/* Create an index for the `licenseNumber` and `email` fields to improve query performance.
+ The index ensures that when queries involve searching for a pharmacist by `licenseNumber` or `email`,
  MongoDB can quickly locate the relevant document(s) without scanning the entire collection.
  The `1` signifies ascending order for the fields, which helps optimize the search process.
 */
-pharmacistSchema.index({ licence_number: 1, email: 1 });
+pharmacistSchema.index({ licenseNumber: 1, email: 1 });
 
 
 // Pre-save hook for password hashing
