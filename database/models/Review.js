@@ -1,5 +1,8 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Types } from "mongoose";
+
+const userSchema = new Schema({
+  // ... user fields
+});
 
 const reviewSchema = new Schema({
   comment: {
@@ -12,6 +15,11 @@ const reviewSchema = new Schema({
   },
   rating: {
     type: Number,
+    required: true,
+  },
+  user: {
+    type: Types.ObjectId,
+    ref: "User",
     required: true,
   },
 });
