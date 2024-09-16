@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const MedicineSchema = new mongoose.Schema(
   {
@@ -29,11 +29,17 @@ const MedicineSchema = new mongoose.Schema(
       type: String,
       maxlength: [255, "Image URL should not exceed 255 characters"],
     },
+    manufacturer: {
+      type: String,
+      maxlength: [100, "Manufacturer should not exceed 100 characters"],
+    },
+    inventory: {
+      type: Types.ObjectId,
+      ref: "Inventory",
+    },
   },
   {
     timestamps: true,
     versionKey: false,
   }
 );
-
-export const Medicine = mongoose.model("Medicine", MedicineSchema);
