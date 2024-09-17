@@ -1,31 +1,51 @@
 import { model, Schema, Types } from "mongoose";
 
-const schema = new Schema(
+const userSchema = new Schema(
   {
 
     name: {
       type: String,
-      maxLength: [100, "name can't be more than 100 characters"],
-      required: [true, "name is required"],
-      trim: true,
+      maxLength: 50,
+      minLength: [3, "Username is too short"],
+      required: [true, "name is required"]
     },
     email: {
       type: String,
       unique: true,
-      maxLength: [100, "email can't be more than 100 characters"],
-      minLength: [3, "email can't be less than 3 characters"],
       required: [true, "email is required"],
-      trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
-      maxLength: [100, "password can't be more than 100 characters"],
-      minLength: [8, "password can't be less than 8 characters"],
+      minLength: [6, "Password must be at least 6 characters long"],
       required: [true, "password is required"],
+      select: false,
+    },
+    passwordChangedAt: {
+      type: Date,
+      required: true,
+    },
+    imageUrl: { 
+      type: string
+      default: "default.jpg"
     },
     contactNumber: {
-      type: Number,
-      required: [true, "phone number is required"],
+      type: String
+    },
+    geoLocation: { //one of them 
+      type: { 
+        type: String, 
+        enum: ['Point'], 
+        required: true 
+      }, 
+      coordinates: {
+        type: [Number], 
+        required: true }
+    }, 
+    locationURL: { //one of them
+      type: String, 
+      required: true, 
+      maxLength: 255
     },
     langLocation: {
       type: Number,
@@ -52,9 +72,14 @@ const schema = new Schema(
     userPharmacies: [
       {
         type: Types.ObjectId,
-        ref: "Pharmacy",
+        ref: "favPharmacy",
       },
     ],
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
+},
   },
   {
     timestamps: true,
@@ -62,4 +87,4 @@ const schema = new Schema(
   }
 );
 
-export const UserModel = model("User", schema);
+export const User = model("User", schema);
