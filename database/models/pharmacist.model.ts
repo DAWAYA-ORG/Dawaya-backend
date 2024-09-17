@@ -1,74 +1,84 @@
 import mongoose, { Types } from "mongoose";
+import validator from "validator";
 
-const pharmacistSchema = new mongoose.Schema({
+const pharmacistSchema = new mongoose.Schema(
+  {
     licenseNumber: {
-        type: String,
-        required: [true, 'license number is required'],
-        unique: true,
-        maxLength: 50
+      type: String,
+      required: [true, "License number is required"],
+      unique: true,
+      maxLength: 50,
     },
     username: {
-        type: String,
-        required: [true, 'Username is required'],
-        unique: true,
-        minLength: [3, 'Username is too short'],
-        maxLength: 50
+      type: String,
+      required: [true, "Username is required"],
+      unique: true,
+      minLength: [3, "Username is too short"],
+      maxLength: 50,
+    },
+    image: {
+      type: String,
+      default: "default.jpg",
     },
     email: {
-        type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-        lowercase: true,
-        trim: true
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      validate: [validator.isEmail, "Please provide a valid email"],
     },
     password: {
-        type: String,
-        required: [true, 'Password is required'],
-        minLength: [6, 'Password must be at least 6 characters long']
+      type: String,
+      required: [true, "Password is required"],
+      minLength: [6, "Password must be at least 6 characters long"],
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, "Please confirm your password"],
+      validate: {
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: "Passwords are not the same!",
+      },
     },
     pharmacy: {
-        type: Types.ObjectId,
-        ref: "Pharmacy",
-        required: true
+      type: Types.ObjectId,
+      ref: "Pharmacy",
+      required: true,
     },
-    inventory: {
-        type: Types.ObjectId,
-        ref: "inventory",
-        required: true
+    inventories: {
+      type: Types.ObjectId,
+      ref: "Inventory",
+      required: true,
     },
     role: {
-        type: String,
-        enum: ['admin', 'user'],
-        default: 'admin'
+      type: String,
+      enum: ["admin", "user"],
+      default: "admin",
     },
-    createdBy: {
-        type: Types.ObjectId,
-        ref: "User",  // Assuming you have a User model
-        required: true
-    }
-}, { timestamps: true, versionKey: false });
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-/* Create an index for the `licenseNumber` and `email` fields to improve query performance.
- The index ensures that when queries involve searching for a pharmacist by `licenseNumber` or `email`,
- MongoDB can quickly locate the relevant document(s) without scanning the entire collection.
- The `1` signifies ascending order for the fields, which helps optimize the search process.
-*/
-pharmacistSchema.index({ licenseNumber: 1, email: 1 });
-
-
-// Pre-save hook for password hashing
-pharmacistSchema.pre('save', async function (next) {
-    if (this.isModified('password')) {
-        // Hash password logic here.....
-
-    }
-    next();
+pharmacistSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    // Hash password logic here
+  }
+  next();
 });
 
-// Method to compare passwords
-pharmacistSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    // Implement password comparison logic
-    return false;
+pharmacistSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  // Implement password comparison logic
+  return false;
 };
 
-export const Pharmacist = mongoose.model('Pharmacist', pharmacistSchema);
+export const Pharmacist = mongoose.model("Pharmacist", pharmacistSchema);
