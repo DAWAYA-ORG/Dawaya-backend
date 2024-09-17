@@ -73,8 +73,8 @@ pharmacistSchema.pre("save", async function (next) {
 });
 
 pharmacistSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
+  candidatePassword
+){
   // Implement password comparison logic
   return false;
 };
