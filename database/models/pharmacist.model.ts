@@ -2,11 +2,11 @@ import mongoose, { Types } from "mongoose";
 import validator from "validator";
 
 const pharmacistSchema = new mongoose.Schema(
-  role: {
-type: String,
-default: 'pharmacist'
-},
   {
+    role: {
+      type: String,
+      default: "pharmacist",
+    },
     licenseNumber: {
       type: String,
       required: [true, "License number is required"],
@@ -20,10 +20,10 @@ default: 'pharmacist'
       minLength: [3, "Username is too short"],
       maxLength: 50,
     },
-    imageUrl:{
-      type:string
-      default:"default.jpg"
-  },
+    imageUrl: {
+      type: String,
+      default: "default.jpg",
+    },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -52,12 +52,11 @@ default: 'pharmacist'
       ref: "Pharmacy",
       required: true,
     },
-    Inventory: {
+    inventory: {
       type: Types.ObjectId,
       ref: "Inventory",
       required: true,
     },
-
     isBlocked: {
       type: Boolean,
       default: false,
