@@ -1,19 +1,25 @@
 import { model, Schema, Types } from "mongoose";
+import { isEmail } from "validator";
 
 const userSchema = new Schema(
   {
-
     name: {
       type: String,
       maxLength: 50,
       minLength: [3, "Username is too short"],
-      required: [true, "name is required"]
+      required: [true, "name is required"],
     },
     email: {
       type: String,
       unique: true,
       required: [true, "email is required"],
       lowercase: true,
+      validate: {
+        validator: (email) => {
+          return isEmail(email);
+        },
+        message: (props) => `${props.value} isn't a valid email`,
+      },
     },
     password: {
       type: String,
@@ -25,27 +31,30 @@ const userSchema = new Schema(
       type: Date,
       required: true,
     },
-    imageUrl: { 
-      type: string
-      default: "default.jpg"
+    imageUrl: {
+      type: string,
+      default: "default.jpg",
     },
     contactNumber: {
-      type: String
+      type: String,
     },
-    geoLocation: { //one of them 
-      type: { 
-        type: String, 
-        enum: ['Point'], 
-        required: true 
-      }, 
+    geoLocation: {
+      //one of them
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
       coordinates: {
-        type: [Number], 
-        required: true }
-    }, 
-    locationURL: { //one of them
-      type: String, 
-      required: true, 
-      maxLength: 255
+        type: [Number],
+        required: true,
+      },
+    },
+    locationURL: {
+      //one of them
+      type: String,
+      required: true,
+      maxLength: 255,
     },
     userReviews: [
       {
@@ -63,7 +72,7 @@ const userSchema = new Schema(
       type: String,
       enum: ["admin", "user"],
       default: "user",
-},
+    },
   },
   {
     timestamps: true,
