@@ -47,22 +47,6 @@ const userSchema = new Schema(
       required: true, 
       maxLength: 255
     },
-    langLocation: {
-      type: Number,
-      min: -180,
-      max: 180,
-      // FIXME: not sure about the performance of this custom function
-      // validate: {
-      //   validator: (lat) => {
-      //     return !isNaN(lat) && isFinite(lat) && Math.abs(lat <= 180);
-      //   },
-      // },
-    },
-    latitudeLocation: {
-      type: Number,
-      min: -90,
-      max: 90,
-    },
     userReviews: [
       {
         type: Types.ObjectId,
