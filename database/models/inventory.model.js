@@ -1,18 +1,20 @@
 import mongoose, { Types } from "mongoose";
-const schema = new mongoose.Schema({
+const inventorySchema = new mongoose.Schema({
     quantity:{
         type: Number,
         required: true,
+        min : 0,
     },
 
     stock: {
         type: Boolean,
         required: true,
+        default : false,
     },
 
     pharmacy: {
         type:Types.ObjectId,
-        ref: 'pharmacy', 
+        ref: 'Pharmacy', 
         required: true
     },
 
@@ -21,12 +23,6 @@ const schema = new mongoose.Schema({
         ref: 'Pharmacist', 
         required: true
     },
-
-    updateDate:{
-        type: Date,
-        default:Date.now(),
-    },
-
 },{timestamps:true, versionKey:false})
 
-export const invemtory = mongoose.model ('invemtory', schema)
+export const Inventory = mongoose.model ('Inventory', inventorySchema)
