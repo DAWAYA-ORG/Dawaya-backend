@@ -2,6 +2,10 @@ import mongoose, { Types } from "mongoose";
 import validator from "validator";
 
 const pharmacistSchema = new mongoose.Schema(
+  role: {
+type: String,
+default: 'pharmacist'
+},
   {
     licenseNumber: {
       type: String,
@@ -16,16 +20,15 @@ const pharmacistSchema = new mongoose.Schema(
       minLength: [3, "Username is too short"],
       maxLength: 50,
     },
-    image: {
-      type: String,
-      default: "default.jpg",
-    },
+    imageUrl:{
+      type:string
+      default:"default.jpg"
+  },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
       lowercase: true,
-      trim: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
     password: {
@@ -49,16 +52,12 @@ const pharmacistSchema = new mongoose.Schema(
       ref: "Pharmacy",
       required: true,
     },
-    inventories: {
+    Inventory: {
       type: Types.ObjectId,
       ref: "Inventory",
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["admin", "user"],
-      default: "admin",
-    },
+
     isBlocked: {
       type: Boolean,
       default: false,
