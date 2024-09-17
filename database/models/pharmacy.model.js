@@ -1,49 +1,74 @@
 import mongoose, { Types } from "mongoose";
+import validator from "validator";
 
-const schema = new mongoose.Schema({
+const pharmacySchema = new mongoose.Schema({
     name:{
         type:String,
         unique: [true, 'name is required'],
         required: true,
         minLength: [2, 'too short pharmacy name']
-    },   
+    },
     email:{
         type:String,
         unique: [true, 'email is required'],
-        required: true
-    }, 
+        required: true,
+        validate: [validator.isEmail, "Please provide a valid email"],
+    },
     password: {
         type: String,
         required: [true, 'Password is required'],
         minLength: 6
     },
-    passwordChangedAt: Date,
-    isBlocked:{
-        type:Boolean,
-        default: false,
+
+    passwordConfirm: {
+        type: String,
+        required: [true, "Please confirm your password"],
+        validate: {
+          validator: function (el) {
+            return el === this.password;
+          },
+          message: "Passwords are not the same!",
+        },
     },
+    passwordChangedAt: Date,
     createdBy:{
         type:Types.ObjectId,
         ref:"Pharmacist"
     },
-    licenceNumber: {
+    licenseNumber: {
         type: String,
         required: true,
         unique: true,
         maxLength: 50
     },
-    addresses: [{
-        city: { type: String, required: true },
-        phone: { type: String, required: true},
-        street: { type: String }
-    }],
-    openingHours: {
-        type: String,
-        required: true
-    },
+    addresses: [
+        {
+            street: String,
+            city: String,
+            state: String,
+            phones: [String], // Array to hold multiple phone numbers per address
+        }
+    ],
+    openingHours: [
+        {
+            day: {
+                type: String,
+                enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                required: true
+            },
+            open: {
+                type: String,
+                required: true
+            },
+            close: {
+                type: String,
+                required: true
+            }
+        }
+    ],
     geoLocation: { //one of them
         type: {
-          type: String, 
+          type: String,
           enum: ['Point'],
           required: true
         },
@@ -55,16 +80,24 @@ const schema = new mongoose.Schema({
     locationURL:{ //one of them
          type: String,
          required: true,
-          maxLength: 255 
+          maxLength: 255
     },
     logo: String,
-    rating: {
-        type: Number,
-        min: 0,
-        max: 5,
-        default: 0
+    review: {
+        type: Types.ObjectId,
+        ref: "Review",
+      },
+    rateAvg:{
+        type:Number,
+        min:0,
+        max:5,
+        set: (val) => Math.round(val * 10) / 10,
+    },
+    ratingQuantity:{
+        type:Number,
+        default:0
     }
- 
+
 },{timestamps:true, versionKey:false})
 
-export const Pharmacy = mongoose.model ('Pharmacy', schema)
+export const Pharmacy = mongoose.model ('Pharmacy', pharmacySchema)
