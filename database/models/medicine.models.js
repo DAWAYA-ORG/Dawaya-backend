@@ -1,12 +1,15 @@
 import mongoose, { Types } from "mongoose";
+import validator from "validator";
 
-const MedicineSchema = new mongoose.Schema(
+const medicineSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       unique: true,
       required: [true, "Name is required"],
-      maxlength: [100, "Name should not exceed 100 characters"],
+      minLength: [3, "Name is too short"],
+      maxlength: [50, "Name should not exceed 100 characters"],
+      index: true,
     },
     price: {
       type: Number,
@@ -21,21 +24,32 @@ const MedicineSchema = new mongoose.Schema(
     dosage: {
       type: String,
       maxlength: [50, "Dosage should not exceed 50 characters"],
+      default: "",
     },
     description: {
       type: String,
+      default: "",
     },
     imageUrl: {
       type: String,
       maxlength: [255, "Image URL should not exceed 255 characters"],
+      required: [true, "Image is required"],
+      validate: {
+        validator: function (value) {
+          return validator.isURL(value);
+        },
+        message: "Invalid URL format",
+      },
     },
     manufacturer: {
       type: String,
       maxlength: [100, "Manufacturer should not exceed 100 characters"],
+      default: "",
     },
     inventory: {
       type: Types.ObjectId,
       ref: "Inventory",
+      required: true,
     },
   },
   {
@@ -43,3 +57,5 @@ const MedicineSchema = new mongoose.Schema(
     versionKey: false,
   }
 );
+
+export const Medicine = mongoose.model("Medicine", medicineSchema);
