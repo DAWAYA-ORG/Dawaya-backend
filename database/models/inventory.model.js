@@ -3,7 +3,7 @@ const inventorySchema = new mongoose.Schema({
     quantity:{
         type: Number,
         required: true,
-        min : 0,
+        min : [0,"Quantity cannot be negative"],     //validation added
     },
 
     stock: {

@@ -37,7 +37,7 @@ const pharmacistSchema = new mongoose.Schema(
       minLength: [6, "Password must be at least 6 characters long"],
       select: false,
     },
-    passwordConfirm: {
+    /*passwordConfirm: {
       type: String,
       required: [true, "Please confirm your password"],
       validate: {
@@ -46,7 +46,7 @@ const pharmacistSchema = new mongoose.Schema(
         },
         message: "Passwords are not the same!",
       },
-    },
+    },*/
     pharmacy: {
       type: Types.ObjectId,
       ref: "Pharmacy",
@@ -65,7 +65,7 @@ const pharmacistSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-pharmacistSchema.pre("save", async function (next) {
+/*pharmacistSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     // Hash password logic here
   }
@@ -77,6 +77,6 @@ pharmacistSchema.methods.comparePassword = async function (
 ){
   // Implement password comparison logic
   return false;
-};
+};*/
 
 export const Pharmacist = mongoose.model("Pharmacist", pharmacistSchema);

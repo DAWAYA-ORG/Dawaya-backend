@@ -20,7 +20,7 @@ const pharmacySchema = new mongoose.Schema({
         minLength: 6
     },
 
-    passwordConfirm: {
+    /*passwordConfirm: {
         type: String,
         required: [true, "Please confirm your password"],
         validate: {
@@ -29,7 +29,7 @@ const pharmacySchema = new mongoose.Schema({
           },
           message: "Passwords are not the same!",
         },
-    },
+    },*/
     passwordChangedAt: Date,
     createdBy:{
         type:Types.ObjectId,
@@ -66,7 +66,7 @@ const pharmacySchema = new mongoose.Schema({
             }
         }
     ],
-    geoLocation: { //one of them
+    /*geoLocation: { //one of them
         type: {
           type: String,
           enum: ['Point'],
@@ -76,7 +76,7 @@ const pharmacySchema = new mongoose.Schema({
           type: [Number],
           required: true
         }
-    },
+    },*/
     locationURL:{ //one of them
          type: String,
          required: true,

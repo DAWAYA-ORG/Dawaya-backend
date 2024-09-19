@@ -38,7 +38,7 @@ const userSchema = new Schema(
     contactNumber: {
       type: String,
     },
-    geoLocation: {
+    /*geoLocation: {
       //one of them
       type: {
         type: String,
@@ -49,7 +49,7 @@ const userSchema = new Schema(
         type: [Number],
         required: true,
       },
-    },
+    },*/
     locationURL: {
       //one of them
       type: String,
@@ -70,7 +70,7 @@ const userSchema = new Schema(
     ],
     role: {
       type: String,
-      enum: ["admin", "user"],
+      enum: ["admin", "user","pharmacist"],
       default: "user",
     },
   },
@@ -80,4 +80,4 @@ const userSchema = new Schema(
   }
 );
 
-export const User = model("User", schema);
+export const User = model("User", userSchema);
