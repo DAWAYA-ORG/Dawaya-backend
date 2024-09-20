@@ -1,23 +1,24 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Types } from 'mongoose';
 
-const favPharmacySchema = new mongoose.Schema(
-  {
-    user: {
-      type: Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    pharmacy: {
-      type: Types.ObjectId,
-      ref: "Pharmacy",
-      required: true,
-    },
-    isFavorite: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  { timestamps: true, versionKey: false }
-);
+const favPharmacySchema = new mongoose.Schema({
+	user: {
+		type: Types.ObjectId,
+		ref: 'User',
+		required: true,
+	},
+	pharmacy: {
+		type: Types.ObjectId,
+		ref: 'Pharmacy',
+		required: true,
+	},
+	isFavorite: {
+		type: Boolean,
+		default: false,
+	},
+	addedAt: {
+		type: Date,
+		default: Date.now,
+	},
+});
 
-export const favPharmacy = mongoose.model("favPharmacy", favPharmacySchema);
+export const FavPharmacy = mongoose.model('FavPharmacy', favPharmacySchema);
