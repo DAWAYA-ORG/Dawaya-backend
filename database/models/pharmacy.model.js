@@ -99,13 +99,11 @@ const pharmacySchema = new mongoose.Schema({
 		type: Number,
 		default: 0,
 	},
-	pharmacists: [
-		{
-			type: Types.ObjectId,
-			ref: 'Pharmacist',
-			required: true,
-		},
-	],
+	pharmacist: {
+		type: Types.ObjectId,
+		ref: 'Pharmacist',
+		required: true,
+	},
 	review: {
 		type: Types.ObjectId,
 		ref: 'Review',
