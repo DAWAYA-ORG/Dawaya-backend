@@ -62,7 +62,7 @@ const pharmacistSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 pharmacistSchema.pre("save", async function (next) {
