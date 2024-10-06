@@ -1,68 +1,38 @@
-name: Pharmacy Backend CI/CD
-
-# Define the events that trigger this workflow
 on:
-  # Trigger on push events
   push:
-    # Specify which branches to run on
-    branches: [ feat/add-ci-pipline ]
-  # Trigger on pull request events
+    branches: [feat/add-ci-pipline]
   pull_request:
-    # Specify which branches to run on for pull requests
-    branches: [ main, develop ]
+    branches: [main]
 
-# Define the jobs that this workflow will run
 jobs:
-  # First job: build the application
-  build:
-    # Specify the type of machine to run on
+  lint:
     runs-on: ubuntu-latest
-
-    # Set up the services needed for this job
-    services:
-      # MongoDB service container
-      mongodb:
-        # Specify MongoDB version
-        image: mongo:4.4
-        # Port mapping
-        ports:
-          - 27017:27017
-
-    # Define the build matrix
-    strategy:
-      # Test against multiple Node.js versions
-      matrix:
-        node-version: [16.x, 18.x]
-
-    # List the steps to be executed in this job
     steps:
-    # Step 1: Check out the repository code
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-    # Step 2: Set up Node.js environment
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        # Use the version from the matrix
-        node-version: ${{ matrix.node-version }}
-        # Enable npm caching to speed up installations
-        cache: 'npm'
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
 
-    # Step 3: Install project dependencies
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    # Step 4: Run linting to ensure code quality
-    -  name: Lint
-       run: npm run lint
+      - name: Run ESLint
+        run: npx eslint .
 
-    # Tests are commented out until Jest is added to the project
-    # - name: Run tests
-    #   run: npm test
-
-    # Step 5: Build the application
-    - name: Build
-      run: npm run build
-      # Set environment variables for the build
-      env:
-        NODE_ENV: production
+      - name: Run Prettier
+        run: npx prettier --check .
+          #   build:
+  #     runs-on: ubuntu-latest
+  
+  #     steps:
+  #       - uses: actions/checkout@v3
+  
+  #       - name: Use Node.js
+  #         uses: actions/setup-node@v3
+  #         with:
+  #           node-version: '20'
+  
+  #       - name: Install dependencies
+  #         run: npm ci
