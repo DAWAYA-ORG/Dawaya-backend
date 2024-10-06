@@ -5,7 +5,7 @@ on:
   # Trigger on push events
   push:
     # Specify which branches to run on
-    branches: [ fix/add-ci-pipline ]
+    branches: [ feat/add-ci-pipline ]
   # Trigger on pull request events
   pull_request:
     # Specify which branches to run on for pull requests
