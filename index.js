@@ -1,6 +1,11 @@
 import express from 'express';
-// import { dbConn } from './database/dbConnection.js'
+//* import { dbConn } from './database/dbConnection.js'*
 const app = express();
+
+
+
+
+
 const port = 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'));
