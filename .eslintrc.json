@@ -29,13 +29,23 @@
       }
     ]
   }],
-    "import/no-extraneous-dependencies": [
-      "always",
-      {
-        "devDependencies": ["**/test/**", "**/scripts/**"],
-        "optionalDependencies": false,
-        "peerDependencies": false
-      }
-    ]
+  "import/no-extraneous-dependencies": [
+    "error",
+    {
+      "devDependencies": ["**/test/**", "**/scripts/**"],
+      "optionalDependencies": false,
+      "peerDependencies": false
+    }
+  ],
+  "import/extensions": [
+    "error",
+    "always",
+    {
+      "js": "always",
+      "jsx": "always",
+      "ts": "always",
+      "tsx": "always"
+    }
+  ]
   }
 }

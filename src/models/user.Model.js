@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   },
   contactNumber: {
     type: String,
-    default: "xxxx"
+    default: 'xxxx',
   },
 });
 
