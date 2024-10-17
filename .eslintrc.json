@@ -21,31 +21,31 @@
     "class-methods-use-this": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val|err" }],
-    "import/order": ["error", {
-    "pathGroups": [
+    "import/order": [
+      "error",
       {
-        "pattern": "^~/**",
-        "group": "external"
+        "pathGroups": [
+          {
+            "pattern": "^~/**",
+            "group": "external"
+          }
+        ]
       }
-    ]
-  }],
-  "import/no-extraneous-dependencies": [
-    "error",
-    {
-      "devDependencies": ["**/test/**", "**/scripts/**"],
-      "optionalDependencies": false,
-      "peerDependencies": false
-    }
-  ],
-  "import/extensions": [
-    "error",
-    "always",
-    {
-      "js": "always",
-      "jsx": "always",
-      "ts": "always",
-      "tsx": "always"
-    }
-  ]
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "node/no-extraneous-import": "off",
+    "node/no-unpublished-import": "off",
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "always",
+        "jsx": "always",
+        "ts": "always",
+        "tsx": "always"
+      }
+    ],
+    "camelcase": "off",
+    "import/prefer-default-export": "off"
   }
 }
