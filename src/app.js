@@ -1,24 +1,25 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
+import morgan from 'morgan';
 
 import dbConnection from './configs/dbConnect.Config.js';
+import { protect } from './configs/passport.js';
+import userRouter from './routes/userRoutes.js';
 
 const app = express();
 
-// public middlwares
+/*             GLOBAL MIDDLEWARES             */
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-// routes
-app.post('/', (req, res) => {
-  console.log(req.body);
+/*                 ROUTES                  */
+app.get('/', protect, (req, res) => {
   res.send('Hello World!');
 });
 
-// add env
-dotenv.config();
+app.use('/api/v1/users', userRouter);
 
-// db connection
+/*             DB CONNECTION             */
 dbConnection();
 
 const port = 3000;
