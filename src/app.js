@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 import dbConnection from './configs/dbConnect.Config.js';
 import { protect } from './configs/passport.js';
@@ -11,6 +12,7 @@ const app = express();
 /*             GLOBAL MIDDLEWARES             */
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 /*                 ROUTES                  */
 app.get('/', protect, (req, res) => {
