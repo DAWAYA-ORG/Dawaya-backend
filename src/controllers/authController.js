@@ -47,7 +47,7 @@ export const login = catchAsyncError(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(401).json({ message: 'provide your email and password' });
+    return res.status(400).json({ message: 'provide your email and password' });
   }
   const user = await User.findOne({ email }).select('+password');
 
