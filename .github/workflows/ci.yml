@@ -2,7 +2,7 @@ on:
   push:
     branches: [feat/add-ci-pipline]
   pull_request:
-    branches: [develop , main]
+    branches: [develop, main]
 
 jobs:
   lint:
@@ -23,5 +23,5 @@ jobs:
 
       - name: Run Prettier
         run: npx prettier --write .
-      - name: check Prettier 
-        run : npx prettier --check .
+      - name: check Prettier
+        run: npx prettier --check .
