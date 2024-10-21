@@ -1,6 +1,6 @@
 import express from 'express';
 import { signup, login, logout } from '../controllers/authController.js';
-import { verifyUserOTP , sendNewOtp } from '../controllers/otpController.js';
+import { verifyUserOTP, sendNewOtp } from '../controllers/otpController.js';
 import { isVerified } from '../middlewars/isVerifiedMiddleware.js';
 import { protect } from '../configs/passport.js';
 
