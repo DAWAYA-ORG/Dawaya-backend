@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { json } from 'body-parser';
 
 import { User } from '../models/userModel.js';
 import catchAsyncError from '../utils/catchAsyncError.js';
+import { createAndSendOTP } from '../utils/otpService.js';
 
 dotenv.config();
 
