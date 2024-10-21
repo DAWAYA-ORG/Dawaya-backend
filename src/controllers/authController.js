@@ -47,7 +47,7 @@ export const login = catchAsyncError(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(401).json({ message: 'provide your email and password' });
+    return res.status(400).json({ message: 'provide your email and password' });
   }
   const user = await User.findOne({ email }).select('+password');
 
@@ -60,10 +60,7 @@ export const login = catchAsyncError(async (req, res) => {
 
 // logout
 export const logout = (req, res) => {
-  res.cookie('jwt', 'loggedout', {
-    expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
-  });
+  res.clearCookie('jwt');
 
   res.status(200).json({ status: 'success' });
 };
