@@ -16,8 +16,6 @@ router.post('/login', login);
 router.post('/verify-otp', verifyOtp);
 router.get('/new-otp', sendNewOtp);
 router.use(isVerified);
-
-
 router.use(protect);
 router.get('/logout', logout);
 
