@@ -8,7 +8,10 @@ dotenv.config();
 
 // JWT strategy options
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    (req) => req.cookies.jwt,
+    ExtractJwt.fromAuthHeaderAsBearerToken(),
+  ]),
   secretOrKey: process.env.JWT_SECRET,
 };
 

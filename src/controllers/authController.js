@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 import { User } from '../models/userModel.js';
 import catchAsyncError from '../utils/catchAsyncError.js';
 
@@ -14,6 +15,12 @@ const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   user.password = undefined;
+
+  res.cookie('jwt', token, {
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
 
   res.status(statusCode).json({
     status: 'success',

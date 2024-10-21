@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "prepare": "husky",
-    "copyEnv": "npm ncp .env.example .env",
+    "copyEnv": "copy .env.example .env",
     "build": "npm run prepare && npm run copyEnv &&npm run start"
   },
   "keywords": [],
