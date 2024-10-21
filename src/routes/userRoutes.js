@@ -1,6 +1,6 @@
 import express from 'express';
 import { signup, login, logout } from '../controllers/authController.js';
-import { verifyOtp, sendNewOtp } from '../controllers/otpController.js';
+import { verifyUserOTP , sendNewOtp } from '../controllers/otpController.js';
 import { isVerified } from '../middlewars/isVerifiedMiddleware.js';
 import { protect } from '../configs/passport.js';
 
@@ -13,7 +13,7 @@ router.post('/login', login);
 // router.use(protect); // auth user
 
 // get -> send top
-router.post('/verify-otp', verifyOtp);
+router.post('/verify-otp', verifyUserOTP);
 router.get('/new-otp', sendNewOtp);
 router.use(isVerified);
 router.use(protect);
