@@ -1,10 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
 const { isEmail } = validator;
 
-const userSchema = new mongoose.Schema({
+export interface IBaseUser extends Document {
+  role: 'admin' | 'user';
+  name: string;
+  email: string;
+  password: string;
+  passwordChangedAt?: Date;
+  imageUrl?: string;
+  contactNumber?: string;
+  correctPassword(candidatePassword: string): Promise<boolean>;
+  isVerified: boolean;
+  otpSecret?: string;
+}
+
+const userSchema = new Schema<IBaseUser>({
   role: {
     type: String,
     enum: ['admin', 'user'],
@@ -41,16 +54,25 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'xxxx',
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  otpSecret: {
+    type: String,
+    select: false,
+  },
 });
-userSchema.pre('save', async function (next) {
+
+userSchema.pre<IBaseUser>('save', async function (next) {
   // If the password field has been modified, hash the password
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-userSchema.methods.correctPassword = async function (candidatePassword) {
+userSchema.methods.correctPassword = async function (candidatePassword: string): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export const User = mongoose.model('User', userSchema);
+export const BaseUser = mongoose.model<IBaseUser>('baseUser', userSchema);

@@ -1,11 +1,11 @@
 import { connect } from 'mongoose';
 
-const dbConnection = () => {
-  connect(process.env.MongoUrl)
+const dbConnection = (): void => {
+  connect(process.env.MongoUrl as string)
     .then(() => {
       console.log('Database connected');
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       console.log('something went wrong', err);
     });
 };
