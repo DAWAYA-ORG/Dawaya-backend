@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 import mongoose, { Types } from 'mongoose';
 
 const inventorySchema = new mongoose.Schema({

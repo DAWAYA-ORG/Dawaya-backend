@@ -8,10 +8,13 @@ const router = express.Router();
 router.post('/signup', signup);
 router.post('/login', login);
 
+// 1- reset-passwor -> confirm email and send email with token.
+
 router.use(protect); // auth user
 
 router.post('/verify-otp', verifyUserOTP);
 router.get('/new-otp', sendNewOtp);
+
 router.use(isVerified);
 router.get('/logout', logout);
 
