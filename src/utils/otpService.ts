@@ -1,9 +1,17 @@
 import speakeasy from 'speakeasy';
-import { generateOTP } from '../configs/otpConfig.js';
-import { sendOTPEmail } from './emailService.js';
+import { generateOTP } from '../configs/otpConfig';
+import { sendOTPEmail } from './emailService';
+import { Response } from 'express';
+import { Document } from 'mongoose';
+
+interface User extends Document<User> {
+  email: string;
+  otpSecret: string;
+  save: () => Promise<this>;
+}
 
 // Function to generate OTP and send via email
-export const createAndSendOTP = async (user, res) => {
+export const createAndSendOTP = async (user: User, res: Response): Promise<void> => {
   const secret = speakeasy.generateSecret();
   const otp = generateOTP(secret.base32);
 
