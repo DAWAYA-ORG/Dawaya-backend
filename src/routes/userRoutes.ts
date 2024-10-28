@@ -1,6 +1,12 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { signup, login, logout } from '../controllers/authController';
-import { verifyUserOTP, sendNewOtp } from '../controllers/otpController';
+import {
+  RequestResetPassword,
+  login,
+  logout,
+  signup,
+} from '../controllers/authController';
+import express, { NextFunction, Request, Response } from 'express';
+import { sendNewOtp, verifyUserOTP } from '../controllers/otpController';
+
 import { isVerified } from '../middlewars/isVerifiedMiddleware';
 import { protect } from '../configs/passport';
 
@@ -16,7 +22,9 @@ router.post('/verify-otp', verifyUserOTP);
 router.get('/new-otp', sendNewOtp);
 
 router.use(isVerified);
-router.get('/logout', logout);
 
+router.post('/reqest-password-reset', RequestResetPassword);
+
+router.get('/logout', logout);
 
 export default router;

@@ -1,6 +1,9 @@
 import transporter from '../configs/emailConfig';
 
-export const sendOTPEmail = async (email: string, otp: string): Promise<void> => {
+export const sendOTPEmail = async (
+  email: string,
+  otp: string,
+): Promise<void> => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
